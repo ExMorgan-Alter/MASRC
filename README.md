@@ -1,2 +1,2 @@
 # MASRC
-Modality-Aware Shot Relating and Comparing for Video Scene Detection
+The complete code and data will be published after the collation is completed.
