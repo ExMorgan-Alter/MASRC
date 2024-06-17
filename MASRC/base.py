@@ -1,4 +1,4 @@
-import torch, einops, math
+import torch, math
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
@@ -202,64 +202,6 @@ class CosSimilarity(nn.Module):
         return sim
 
 
-class TemporalPosEmbed(nn.Module):
-    def __init__(self, in_features=1, out_features=256, n_shot=20):
-        super().__init__()
-        self.out_features = out_features
-        self.w0 = nn.parameter.Parameter(torch.randn(in_features, 1))
-        self.b0 = nn.parameter.Parameter(torch.randn(1))
-        self.w = nn.parameter.Parameter(torch.randn(in_features, out_features-1))
-        self.b = nn.parameter.Parameter(torch.randn(out_features-1))
-        self.f = torch.sin
-
-        self.pos_ids = torch.arange(n_shot, dtype=torch.float, device='cuda:0')[:, None]
-
-    def forward(self, x):
-        """
-        :return:
-        """
-        B = x.shape[0]
-        v1 = self.f(torch.matmul(self.pos_ids, self.w) + self.b)
-        v2 = torch.matmul(self.pos_ids, self.w0) + self.b0
-        v = torch.cat([v1, v2], -1)
-
-        v = einops.repeat(v, 't n -> b t n', b=B)
-        return v
-
-
-class PosEmbed(nn.Module):
-    def __init__(self, size, dim=256):
-        super().__init__()
-        self.size = size
-        self.pe = nn.Embedding(size, dim)
-        self.pos_ids = torch.arange(size, dtype=torch.long, device='cuda:0')
-
-    def forward(self, x):
-        pos_ids = einops.repeat(self.pos_ids, 'n -> b n', b=len(x))
-        embeddings = torch.cat([x, self.pe(pos_ids)], dim=-1)
-        return embeddings
-
-
-class FeedForward(nn.Module):
-    def __init__(self, dim, hidden_dim, dropout =0.5):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(dim, hidden_dim),
-            nn.ReLU(),
-            nn.Dropout(dropout),
-            nn.Linear(hidden_dim, dim),
-            nn.Dropout(dropout)
-        )
-
-    def forward(self, x):
-        return self.net(x)
-
-    def initialize_weight(self, x):
-        nn.init.xavier_uniform_(x.weight)
-        if x.bias is not None:
-            nn.init.constant_(x.bias, 0)
-
-
 class Embedding(nn.Module):
     def __init__(self, in_ch, out_ch):
         super().__init__()
@@ -280,29 +222,6 @@ class Embedding(nn.Module):
         nn.init.xavier_uniform_(x.weight)
         if x.bias is not None:
             nn.init.constant_(x.bias, 0)
-
-
-class AbsolutePositionalEncoder(nn.Module):
-    def __init__(self, emb_dim, max_position=512):
-        super(AbsolutePositionalEncoder, self).__init__()
-        self.position = torch.arange(max_position).unsqueeze(1)
-        self.positional_encoding = torch.zeros(max_position, emb_dim, device="cuda:0")
-
-        self.w = nn.Linear(emb_dim, emb_dim, bias=False)
-        nn.init.xavier_uniform_(self.w.weight)
-
-        _2i = torch.arange(0, emb_dim, step=2).float()
-
-        # PE(pos, 2i) = sin(pos/10000^(2i/d_model))
-        self.positional_encoding[:, 0::2] = torch.sin(self.position / (10000 ** (_2i / emb_dim)))
-
-        # PE(pos, 2i+1) = cos(pos/10000^(2i/d_model))
-        self.positional_encoding[:, 1::2] = torch.cos(self.position / (10000 ** (_2i / emb_dim)))
-
-    def forward(self, x):
-        batch_size, seq_len, _ = x.size()
-        pos_emb = self.w(self.positional_encoding)
-        return einops.repeat(pos_emb, 't n -> b t n', b=batch_size)
 
 
 class Normalization(nn.Module):
