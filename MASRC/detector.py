@@ -13,21 +13,20 @@ class MCD(nn.Module):
         self.cls = MLP(seg//4, 128, 1, 0.2)
         self.act = nn.Sigmoid()
 
-    def forward(self, cast, place):
+    def forward(self, entity, place):
         """
-        :param cast: (B, T, D)
+        :param entity: (B, T, D)
         :param place: same as above
         :return:
         """
-        batch, T, _ = cast.shape
+        T = entity.shape[1]
 
         # cosine similarity for single shot
-        precast, postcast = torch.split(cast, T // 2, dim=1)
-        preplace, postplace = torch.split(place, T // 2, dim=1)
-
-        sim_cast = self.cosin_matrix(precast, postcast)
-        sim_place = self.cosin_matrix(preplace, postplace)
-        sim = 0.5*sim_cast + 0.5*sim_place
+        entity = F.normalize(entity, dim=-1)
+        place = F.normalize(place, dim=-1)
+        context = torch.concat((entity, place), dim=-1)
+        prec, postc = torch.split(context, T // 2, dim=1)
+        sim = 0.5*self.cosin_matrix(prec, postc)
 
         sim = self.convnet(sim)
         sim = torch.mean(sim, dim=-1)
