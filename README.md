@@ -1,3 +1,14 @@
-# MASRC
-The complete code and data will be published after the collation is completed.
-The MASRC folder contains the code for MASR and MCD. Note that the code for building EJG and PCG graphs is collecting.
+
+# Modality-Aware Shot Relating and Comparing for Video Scene Detection
+This is an official PyTorch Implementation of **Modality-Aware Shot Relating and Comparing for Video Scene Detection**.
+
+## Quote
+
+```
+@InProceedings{vsd_neighbor,
+    author    = {Tan, Jiawei and Wang, Hongxing and Dang, Kang and Jiaxin, Li and Qu, Zhilong},
+    title     = {Modality-Aware Shot Relating and Comparing for Video Scene Detection},
+    booktitle = {The 39th Annual AAAI Conference on Artificial Intelligence},
+    year      = {2025},
+}
+```
