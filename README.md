@@ -2,6 +2,8 @@
 # Modality-Aware Shot Relating and Comparing for Video Scene Detection
 This is an official PyTorch Implementation of **Modality-Aware Shot Relating and Comparing for Video Scene Detection**.
 
+``supply.pdf`` is our supplement to the main manuscript.
+
 ## Quote
 
 ```
