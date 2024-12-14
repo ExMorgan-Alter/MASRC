@@ -4,6 +4,9 @@ This is an official PyTorch Implementation of **Modality-Aware Shot Relating and
 
 ``supply.pdf`` is our supplement to the main manuscript.
 
+## Note
+We try to make the code public before the meeting.
+
 ## Quote
 
 ```
