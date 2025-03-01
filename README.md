@@ -6,14 +6,14 @@ This is an official PyTorch Implementation of **Modality-Aware Shot Relating and
 
 ## Prepare Dataset
 1. Download processed features (entity and place features) for MovieNet Dataset (Backbone is ResNet-50 Pretrained on ImageNet and Place365)
-   Link：https://pan.quark.cn/s/c579c7217448 Code：RV7C
+   https://pan.quark.cn/s/8452ff70183d  Code: Ev6E
 
    (If you are interested in how to process this dataset, please refer to https://github.com/mini-mind/VSMBD ）
-3. Download MovieNet dataset label: https://drive.google.com/drive/folders/1F-uqCKnhtSdQKcDUiL3dRcLOrAxHargz
-4. Generate the dataset by running **function gen_movienet(fore_path, back_path, lb_path, seg_sz=14, topk=4, have_graph=False, graph_path=None, save_path=None)** in dataProcess\DefineGraphv2.py;
+2. Download MovieNet dataset label: https://drive.google.com/drive/folders/1F-uqCKnhtSdQKcDUiL3dRcLOrAxHargz
 
-   fore_path is the saving path of ImageNet_shot.pkl downloaded from step 1.
-   back_path is the saving path of Place_shot.pkl downloaded from step 1.
+3. Generate the dataset by running **function gen_movienet(fore_path, back_path, lb_path, seg_sz=14, topk=4, have_graph=False, graph_path=None, save_path=None)** in dataProcess\DefineGraphv2.py;
+
+   fore_path and back_path is the saving path of ImageNet_shot.pkl downloaded from step 1, respectively.
 
    lb_path is the saving path of the txt file download from step 2.
 
