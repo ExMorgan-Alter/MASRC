@@ -13,7 +13,7 @@ This is an official PyTorch Implementation of **Modality-Aware Shot Relating and
 
 3. Generate the dataset by running **function gen_movienet(fore_path, back_path, lb_path, seg_sz=14, topk=4, have_graph=False, graph_path=None, save_path=None)** in dataProcess\DefineGraphv2.py;
 
-   fore_path and back_path is the saving path of ImageNet_shot.pkl downloaded from step 1, respectively.
+   fore_path and back_path is the saving path of ImageNet_shot.pkl and Place_shot.pkl downloaded from step 1, respectively.
 
    lb_path is the saving path of the txt file download from step 2.
 
