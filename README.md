@@ -4,6 +4,21 @@ This is an official PyTorch Implementation of **Modality-Aware Shot Relating and
 
 ``supply.pdf`` is our supplement to the main manuscript.
 
+## Environment
+
+This project runs on Windows10 with one GPU (~12G) and a memory (~32G).
+
+Install the following packages at first:
+- python 3.9.2
+- PyTorch 1.10.0
+- torchvision 0.11.1
+- numpy
+- scikit-learn
+- pickle
+- json
+- vit_pytorch
+
+
 ## Prepare Dataset
 1. Download processed features (entity and place features) for MovieNet Dataset (Backbone is ResNet-50 Pretrained on ImageNet and Place365)
    https://pan.quark.cn/s/8452ff70183d  Code: Ev6E
