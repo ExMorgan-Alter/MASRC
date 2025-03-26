@@ -2,7 +2,6 @@ import numpy as np
 import pickle as pkl
 import os
 from tqdm import tqdm
-import ruptures as rup
 import random
 
 # ----------- Pseudo Labels ----------- #
@@ -27,22 +26,6 @@ def MDTW(feats:np.ndarray):
 
     pse_label = np.argmax(sim_bank)
     return pse_label
-
-
-def CPD(fore:dict, back:dict):
-    fore = dict2ndarry(fore)
-    back = dict2ndarry(back)
-    T = fore.shape[0]
-    feat = np.concatenate((fore, back), axis=-1)
-    feat = normalized(feat)
-
-    algo = rup.BottomUp(model='rbf', min_size=1, jump=1).fit(feat)
-    cps = algo.predict(n_bkps=int(T*0.09))
-
-    cand = np.array(cps[:-1]) - 1
-
-    return cand
-
 
 def dict2ndarry(feat:dict, dim=2048):
     nshot = len(list(feat.keys()))
