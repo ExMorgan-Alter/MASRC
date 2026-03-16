@@ -45,8 +45,8 @@ def load_data(data_path, split_path, seg_sz, batch, mode='train'):
     with open(split_path, 'r') as f:
         data = js.load(f)
         random.shuffle(data['test'])
-        trainSet = data['train']  + random.choices(data['test'], k=int(len(data['test'])*0.4))
-        # trainSet = data['train'] + data['val']
+        # trainSet = data['train']  + random.choices(data['test'], k=int(len(data['test'])*0.4))
+        trainSet = data['train'] + data['val']
         testSet = data['test']
 
     samplelist = os.listdir(data_path)
